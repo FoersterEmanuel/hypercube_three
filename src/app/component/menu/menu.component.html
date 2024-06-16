@@ -1,0 +1,37 @@
+<ul class="tabs_container" [class.close]="selectedTab==='close'">
+  <li class="tabs_item" [class.active]="selectedTab==='objects'" (click)="setSelectedTab('objects')"> Objekte </li>
+  <li class="tabs_item" [class.active]="selectedTab==='rotation'" (click)="setSelectedTab('rotation')"> Rotation</li>
+  <!-- <li class="tabs_item" [class.active]="selectedTab==='4dSetting'" (click)="setSelectedTab('4dSetting')"> 4D Setting </li> -->
+  <li class="tabs_item" (click)="setSelectedTab('close')" *ngIf="selectedTab!=='close'"> close </li>
+</ul>
+
+<div class="content_container" *ngIf="selectedTab==='objects'">
+  <div *ngFor="let type of predefinedObjects_NameTypeMapArray">
+    <span>{{type[0]}}</span>
+    <ul>
+      <li *ngFor="let name of type[1]">
+        <input type="checkbox" [formControl]="predefinedObjects_FormControl.get(name)!">
+        {{name}} 
+        <span class="question"  (mouseenter)="handleHover($event, true, name)" (mouseleave)="handleHover($event, false,'')">?</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="content_container" [hidden]="selectedTab!=='rotation'">
+  <ul>
+    <li *ngFor="let name of rotation_planeNames">
+      <input type="checkbox" [formControl]="rotation_FormControl.get(name)!"> Rotate around the rotation plane {{name}}
+    </li>
+  </ul>
+</div>
+
+<div class="content_container" *ngIf="selectedTab==='4dSetting'">
+  <ul>
+    <li><input type="number">distance</li>
+  </ul>
+</div>
+
+<div class="description" *ngIf="showDescription">  
+  {{description}}
+</div>
